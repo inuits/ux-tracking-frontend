@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { routerTransition } from '../../router.animations';
+import {Component, Injectable, OnInit} from '@angular/core';
+import {routerTransition} from '../../router.animations';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
     selector: 'app-dashboard',
@@ -10,8 +11,20 @@ import { routerTransition } from '../../router.animations';
 export class DashboardComponent implements OnInit {
     public alerts: Array<any> = [];
     public sliders: Array<any> = [];
+    errors = [
+        // {
+        //     'error': 'This is an error',
+        //     'position': '79,5',
+        //     'source': 'lib/ux-ttrackinaga;dfj.js',
+        //     'stack': 'STACKTRACEEEEE',
+        //     'timestamp': 1526040778063
+        // },
+    ];
 
-    constructor() {
+    headers: HttpHeaders;
+
+    @Injectable()
+    constructor(private client: HttpClient) {
         this.sliders.push(
             {
                 imagePath: 'assets/images/slider1.jpg',
@@ -52,7 +65,13 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    ngOnInit() {}
+    ngOnInit() {
+        this.client.get('https://silent-fish-60.localtunnel.me/error', {
+            headers: new HttpHeaders({
+                'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MjYwNDM0ODMsIm5iZiI6MTUyNjA0MzQ4MywianRpIjoiMmU0OTgxZmUtNjkwZC00MWI3LWJlODUtYzVhMTg3NWMzYWVhIiwiZXhwIjoxNTI2MDQ0MzgzLCJpZGVudGl0eSI6InNwb3J0b2ZmaWNlIiwiZnJlc2giOmZhbHNlLCJ0eXBlIjoiYWNjZXNzIn0.PZp44jXXEhao_hZsGsFbzHizvtW0OTqFEHXeN_9tCTY'
+            })
+        }).toPromise().then(res => this.errors = res);
+    }
 
     public closeAlert(alert: any) {
         const index: number = this.alerts.indexOf(alert);

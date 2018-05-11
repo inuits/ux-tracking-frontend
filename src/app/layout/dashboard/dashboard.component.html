@@ -1,21 +1,24 @@
 <div [@routerTransition]>
-    <h2 class="text-muted">Dashboard <small>Statistics Overview</small></h2>
+    <h2 class="text-muted">Dashboard
+        <small>Statistics Overview</small>
+    </h2>
     <hr>
     <div class="row">
         <div class="col-xl-6 col-lg-6">
-            <app-stat [bgClass]="'primary'" [icon]="'fa-laptop'" [count]="26" [label]="'Active Applications'" ></app-stat>
+            <app-stat [bgClass]="'primary'" [icon]="'fa-laptop'" [count]="1" [label]="'Active Applications'"></app-stat>
         </div>
         <!--<div class="col-xl-3 col-lg-6">-->
-            <!--<app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>-->
+        <!--<app-stat [bgClass]="'warning'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>-->
         <!--</div>-->
         <!--<div class="col-xl-3 col-lg-6">-->
-            <!--<app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>-->
+        <!--<app-stat [bgClass]="'success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>-->
         <!--</div>-->
         <div class="col-xl-6 col-lg-6">
-            <app-stat [bgClass]="'danger'" [icon]="'fa-exclamation'" [count]="13" [label]="'New Errors!'"></app-stat>
+            <app-stat [bgClass]="'danger'" [icon]="'fa-exclamation'" [count]="errors.length"
+                      [label]="'Errors'"></app-stat>
         </div>
     </div>
-    <hr />
+    <hr/>
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-default mb-3">
@@ -23,10 +26,10 @@
                     <i class="fa fa-exclamation-circle fa-fw"></i>Errors
                 </div>
 
-                <app-notification></app-notification>
+                <app-errorlist [errors]="errors"></app-errorlist>
 
             </div>
         </div>
     </div>
-    <hr />
+    <hr/>
 </div>
