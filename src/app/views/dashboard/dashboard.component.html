@@ -1,0 +1,74 @@
+<div class="animated fadeIn">
+  <div class="row">
+
+
+    <div class="col-sm-2">
+      <div class="callout callout-danger">
+        <small class="text-muted">Amount of errors</small>
+        <br>
+        <strong class="h4">{{ errors.length}}</strong>
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <div class="card mb-1">
+        <h4 class="card-header">
+          Errors
+        </h4>
+        <p class="card-body text-muted" *ngIf="errors.length == 0">No errors.</p>
+        <div class="list-group list-group-action">
+          <a *ngFor="let error of errors" class="list-group-item list-group-item-action text-info"
+             (click)="showError(error)"><i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;<strong>{{
+            error._source.error }}</strong>
+            <i class="text-muted float-right">{{ error._source.timestamp | timeAgo}}</i>
+          </a>
+        </div>
+      </div>
+
+      <nav aria-label="...">
+        <ul class="pagination">
+          <li class="page-item active"><a class="page-link" href="#">1</a></li>
+          <li class="page-item disabled"><a class="page-link" href="#">2</a></li>
+          <li class="page-item disabled"><a class="page-link" href="#">3</a></li>
+        </ul>
+      </nav>
+
+    </div>
+  </div>
+
+  <div class="row" *ngIf="error.show">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-body">
+          <h5><i class="fa fa-exclamation-circle text-danger"></i> {{ error.error._source.error }}</h5>
+
+          <table width="100%" class="table">
+            <tr>
+              <th width="20%">Source</th>
+              <td>{{ error.error._source.source }}</td>
+            </tr>
+            <tr>
+              <th>Position</th>
+              <td>{{ error.error._source.position }}</td>
+            </tr>
+          </table>
+
+          <pre><code highlight [code]="error.error._source.stack"></code></pre>
+
+          <hr>
+
+          <h6>Actions</h6>
+
+
+
+          <div class="list-group-action">
+
+            <app-action *ngFor="let action of error.actions" [action]="action">
+            </app-action>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

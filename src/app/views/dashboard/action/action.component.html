@@ -1,0 +1,54 @@
+<div>
+  <a class="list-group-item list-group-item-action" (click)="collapse = !collapse">
+    <span class="badge badge-info text-white">{{ action._source.method}}</span> &nbsp;
+    <strong>{{ action._source.type }}</strong> |
+    <i class="text-muted">{{ action._source.value}}</i>
+    <i class="float-right">{{ action._source.timestamp | date: "HH:mm"}}<i class="text-muted">:{{
+      action._source.timestamp | date: "ss"}}</i></i>
+  </a>
+
+  <div *ngIf="!collapse" class="card">
+    <div class="card-body">
+      <table class="table">
+        <tr>
+          <th width="20%">id</th>
+          <td>{{ action._source.id }}</td>
+        </tr>
+        <tr>
+          <th>class</th>
+          <td>{{ action._source.class }}</td>
+        </tr>
+        <tr>
+          <th>value</th>
+          <td>{{ action._source.value }}</td>
+        </tr>
+        <tr>
+          <th>type</th>
+          <td>{{ action._source.type }}</td>
+        </tr>
+        <tr>
+          <th>path</th>
+          <td>{{ action._source.path }}</td>
+        </tr>
+        <tr>
+          <th>class</th>
+          <td>{{ action._source.class }}</td>
+        </tr>
+        <tr>
+          <th>method</th>
+          <td>{{ action._source.method }}</td>
+        </tr>
+        <tr>
+          <th>timestamp</th>
+          <td>{{ action._source.timestamp | date : "dd MMM yyyy HH:mm" }}<span class="text-muted">:{{ action._source.timestamp | date : "ss"}}</span>
+          </td>
+        </tr>
+      </table>
+
+
+      <pre>
+        <code highlight [code]="createHTML(action._source)"></code>
+      </pre>
+    </div>
+  </div>
+</div>

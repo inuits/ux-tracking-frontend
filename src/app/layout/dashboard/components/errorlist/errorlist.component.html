@@ -1,8 +1,0 @@
-<div class="card-body">
-    <div class="list-group">
-        <a *ngFor="let error of errors" href="#" class="list-group-item clearfix d-block">
-            <i class="fa fa-exclamation-triangle fa-fw text-danger"></i> {{ error._source.error }}
-            <span class="float-right text-muted small"><em><time>{{ error._source.timestamp.int | timeAgo }}</time></em></span>
-        </a>
-    </div>
-</div>
