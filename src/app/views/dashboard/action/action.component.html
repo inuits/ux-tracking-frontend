@@ -1,28 +1,33 @@
 <div>
   <a class="list-group-item list-group-item-action" (click)="collapse = !collapse">
-    <span class="badge badge-info text-white">{{ action._source.method}}</span> &nbsp;
+    <span class="badge badge-{{ getActionColor(action) }} text-white">{{ action._source.method}}</span> &nbsp;
     <strong>{{ action._source.type }}</strong> |
-    <i class="text-muted">{{ action._source.value}}</i>
+    <i class="text-muted">{{ action._source.value | slice:0:55 }} <span
+            *ngIf="action._source.value.length >= 55">...</span>
+    </i>
     <i class="float-right">{{ action._source.timestamp | date: "HH:mm"}}<i class="text-muted">:{{
       action._source.timestamp | date: "ss"}}</i></i>
+    <br/>
+    <small class="text-muted ml-3">{{ action._source.client }}</small>
   </a>
 
-  <div *ngIf="!collapse" class="card">
+  <div *ngIf="!collapse">
     <div class="card-body">
       <table class="table">
-        <tr>
-          <th width="20%">id</th>
+        <tr *ngIf="action._source.id">
+          <th>id</th>
           <td>{{ action._source.id }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="action._source.class">
           <th>class</th>
           <td>{{ action._source.class }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="action._source.value">
           <th>value</th>
-          <td>{{ action._source.value }}</td>
+          <td>{{ action._source.value | slice:0:255 }} <span
+                  *ngIf="action._source.value.length > 255">...</span></td>
         </tr>
-        <tr>
+        <tr *ngIf="action._source.type">
           <th>type</th>
           <td>{{ action._source.type }}</td>
         </tr>
@@ -30,16 +35,16 @@
           <th>path</th>
           <td>{{ action._source.path }}</td>
         </tr>
-        <tr>
-          <th>class</th>
-          <td>{{ action._source.class }}</td>
+        <tr *ngIf="action._source.target">
+          <th>target</th>
+          <td>{{ action._source.target }}</td>
         </tr>
-        <tr>
+        <tr *ngIf="action._source.method">
           <th>method</th>
           <td>{{ action._source.method }}</td>
         </tr>
         <tr>
-          <th>timestamp</th>
+          <th width="20%">timestamp</th>
           <td>{{ action._source.timestamp | date : "dd MMM yyyy HH:mm" }}<span class="text-muted">:{{ action._source.timestamp | date : "ss"}}</span>
           </td>
         </tr>
@@ -47,7 +52,7 @@
 
 
       <pre>
-        <code highlight [code]="createHTML(action._source)"></code>
+        <code highlight [textContent]="createHTML(action._source)"></code>
       </pre>
     </div>
   </div>

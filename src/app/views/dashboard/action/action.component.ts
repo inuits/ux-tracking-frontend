@@ -1,82 +1,87 @@
 import {Component, Input, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-action',
-  templateUrl: './action.component.html',
-  styleUrls: ['./action.component.scss']
+    selector: 'app-action',
+    templateUrl: './action.component.html',
+    styleUrls: ['./action.component.scss']
 })
 export class ActionComponent implements OnInit {
 
-  @Input()
-  public action = {};
+    @Input()
+    public action = {};
 
-  collapse = true;
+    collapse = true;
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-
-  createHTML(object) {
-
-    let output = '';
-
-    if (object.parent) {
-      output += this.createOpenTag(object.parent) + '\n';
+    constructor() {
     }
 
-    output += this.createOpenTag(object);
-
-    if (object.value) {
-      output += object.value;
+    ngOnInit() {
     }
 
-    output += this.createCloseTag(object);
 
-    if (object.parent) {
-      output += '\n' + this.createCloseTag(object.parent);
+    createHTML(object) {
+
+        // if (['get', 'post', 'delete', 'put', 'patch'].includes(object.type.toLowerCase())) {
+        try {
+            return JSON.stringify(JSON.parse(object.value), null, '  ');
+        } catch (e) {
+            console.log('it appears this isn\'t json');
+        }
+        // }
+
+        let output = '';
+
+        if (object.parent) {
+            output += this.createOpenTag(object.parent) + '\n';
+        }
+
+        output += this.createOpenTag(object);
+
+        if (object.value) {
+            output += object.value;
+        }
+
+        output += this.createCloseTag(object);
+
+        if (object.parent) {
+            output += '\n' + this.createCloseTag(object.parent);
+        }
+
+        return output;
     }
 
-    return output;
-  }
+    private createOpenTag(object) {
+        let output = '';
 
-  private createOpenTag(object) {
-    let output = '';
+        if (object.parent) {
+            output += '  ';
+        }
 
-    if (object.parent) {
-      output += '  ';
+        output += '<' + object.type.toLowerCase() + ' ';
+
+        if (object.id) {
+            output += 'id="' + object.id + '" ';
+        }
+
+        if (object.class) {
+            output += 'class="' + object.class + '" ';
+        }
+
+        return output + '>';
     }
 
-    output += '<' + object.type.toLowerCase() + ' ';
-
-    if (object.id) {
-      output += 'id="' + object.id + '" ';
+    private createCloseTag(object) {
+        return '</' + object.type.toLowerCase() + '>';
     }
 
-    if (object.class) {
-      output += 'class="' + object.class + '" ';
+
+    getActionColor(action) {
+        switch (action._source.method.toLowerCase()) {
+            case 'req':
+                return 'warning';
+            case 'click':
+            default:
+                return 'info';
+        }
     }
-
-    return output + '>';
-  }
-
-  private createCloseTag(object) {
-    return '</' + object.type.toLowerCase() + '>';
-  }
-
-  // <!--&lt;{{ action._source.parent.type }}-->
-  // <!--<span *ngIf="action._source.parent.id">id="{{action._source.parent.id}}"</span>-->
-  // <!--<span *ngIf="action._source.parent.class">class="{{action._source.parent.class}}"</span>-->
-  // <!--&gt; <br/>-->
-  // <!---->
-  // <!--&lt;{{ action._source.type | lowercase }}-->
-  // <!--<span *ngIf="action._source.id">id="{{action._source.id}}"</span>-->
-  // <!--<span *ngIf="action._source.class">class="{{action._source.class}}"</span>-->
-  // <!--&gt; {{ action._source.value }} &lt;/{{ action._source.type | lowercase }}&gt;-->
-  // <!---->
-  // <!--<br/>-->
-  // <!---->
-  // <!--&lt;/{{ action._source.parent.type }}&gt;-->
 }

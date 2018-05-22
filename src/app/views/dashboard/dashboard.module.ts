@@ -11,6 +11,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {ActionComponent} from './action/action.component';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import {HighlightModule} from 'ngx-highlightjs';
+import { ActionsComponent } from './actions/actions.component';
+import { ErrorsComponent } from './errors/errors.component';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
   imports: [
@@ -23,7 +26,7 @@ import {HighlightModule} from 'ngx-highlightjs';
     HttpClientModule,
     HighlightModule.forRoot({ theme: 'rainbow'})
   ],
-  declarations: [DashboardComponent, ActionComponent, TimeAgoPipe],
+  declarations: [DashboardComponent, ActionComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent],
 })
 export class DashboardModule {
 }
