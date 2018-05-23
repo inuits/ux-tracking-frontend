@@ -2,36 +2,20 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {getStyle, hexToRgba} from '@coreui/coreui/dist/js/coreui-utilities';
 import {CustomTooltips} from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Error} from '../../domain/Error';
+import {Action} from '../../domain/Action';
 
 @Component({
     templateUrl: 'dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
 
-    errors = [];
-    actions = [];
-    httpHeaders = new HttpHeaders({
+    errors: Error[] = [];
+    actions: Action[] = [];
+
+    private httpHeaders = new HttpHeaders({
         'Authorization': 'Bearer ' + localStorage.getItem('token')
     });
-
-    error = {
-        show: false,
-        error: [],
-        actions: []
-    };
-
-    showError(error) {
-        this.error = {
-            show: true,
-            error: error,
-            actions: []
-        };
-
-        this.httpclient.get('http://localhost:5000/action/for/' + error._id,
-            {headers: this.httpHeaders}).toPromise().then(res => {
-            this.error.actions = res as Array<Object>;
-        });
-    }
 
     constructor(@Inject(HttpClient) private httpclient: HttpClient) {
     }
@@ -48,23 +32,27 @@ export class DashboardComponent implements OnInit {
         });
     }
 
+    get errorslength() {
+        if (this.errors) {
+            return this.errors.length;
+        } else {
+            return 0;
+        }
+    }
+
     fetchErrors() {
         this.httpclient.get('http://localhost:5000/error', {
             'headers': this.httpHeaders
-        }).toPromise().then(res => {
-            this.errors = res as Array<Object>;
-
-            if (this.errors.length > 0) {
-                this.showError(res[0]);
-            }
+        }).subscribe(res => {
+            this.errors = res as Array<Error>;
         });
     }
 
     fetchActions() {
         this.httpclient.get('http://localhost:5000/action', {
             'headers': this.httpHeaders
-        }).toPromise().then(res => {
-            this.actions = res as Array<Object>;
+        }).subscribe(res => {
+            this.actions = res as Action[];
         });
     }
 

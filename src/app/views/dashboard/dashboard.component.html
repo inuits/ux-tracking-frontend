@@ -1,26 +1,5 @@
 <div class="animated fadeIn">
   <div class="row">
-
-    <div class="col-lg-6">
-      <div class="callout callout-warning">
-        <small class="text-muted">Amount of actions</small>
-        <br>
-        <strong class="h4">{{ actions.length}}</strong>
-      </div>
-    </div>
-
-
-    <div class="col-lg-6">
-      <div class="callout callout-danger">
-        <small class="text-muted">Amount of errors</small>
-        <br>
-        <strong class="h4">{{ errors.length}}</strong>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="row">
     <div class="col-lg-6">
       <app-actions [actions]="actions" [pageLimit]="10"></app-actions>
     </div>
@@ -29,5 +8,4 @@
       <app-errors [errors]="errors" [pageLimit]="10"></app-errors>
     </div>
   </div>
-
 </div>

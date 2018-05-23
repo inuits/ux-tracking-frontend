@@ -9,7 +9,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class ErrorComponent implements OnInit {
 
     @Input()
-    public error = Object;
+    public error: Error;
 
     collapse = true;
     actions = [];

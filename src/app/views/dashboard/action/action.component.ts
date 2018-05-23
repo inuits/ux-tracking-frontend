@@ -21,13 +21,10 @@ export class ActionComponent implements OnInit {
 
     createHTML(object) {
 
-        // if (['get', 'post', 'delete', 'put', 'patch'].includes(object.type.toLowerCase())) {
         try {
             return JSON.stringify(JSON.parse(object.value), null, '  ');
         } catch (e) {
-            console.log('it appears this isn\'t json');
         }
-        // }
 
         let output = '';
 

@@ -2,8 +2,8 @@
   <a class="list-group-item list-group-item-action" (click)="collapse = !collapse">
     <span class="badge badge-{{ getActionColor(action) }} text-white">{{ action._source.method}}</span> &nbsp;
     <strong>{{ action._source.type }}</strong> |
-    <i class="text-muted">{{ action._source.value | slice:0:55 }} <span
-            *ngIf="action._source.value.length >= 55">...</span>
+    <i class="text-muted">{{ action._source.value | slice:0:35 }} <span
+            *ngIf="action._source.value.length >= 35">...</span>
     </i>
     <i class="float-right">{{ action._source.timestamp | date: "HH:mm"}}<i class="text-muted">:{{
       action._source.timestamp | date: "ss"}}</i></i>

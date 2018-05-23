@@ -1,7 +1,7 @@
 <div>
   <div class="card mb-1">
     <h4 class="card-header">
-      Errors
+      <span class="badge badge-danger">{{ amountOfErrors }}</span> Errors
     </h4>
     <p class="card-body text-muted" *ngIf="pages.length == 0">No errors.</p>
     <div class="list-group list-group-action" *ngIf="pages.length > 0">
