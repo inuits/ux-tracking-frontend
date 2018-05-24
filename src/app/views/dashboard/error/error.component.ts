@@ -12,21 +12,11 @@ export class ErrorComponent implements OnInit {
     public error: Error;
 
     collapse = true;
-    actions = [];
 
     constructor(@Inject(HttpClient) private httpclient) {
     }
 
     ngOnInit() {
-        // fetch the actions
-        this.httpclient.get('http://localhost:5000/action/for/' + this.error['_id'],
-            {
-                headers: new HttpHeaders({
-                    'Authorization': 'Bearer ' + localStorage.getItem('token')
-                })
-            }).toPromise().then(res => {
-            this.actions = res as Array<Object>;
-        });
     }
 
 

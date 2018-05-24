@@ -14,6 +14,7 @@ import {HighlightModule} from 'ngx-highlightjs';
 import { ActionsComponent } from './actions/actions.component';
 import { ErrorsComponent } from './errors/errors.component';
 import { ErrorComponent } from './error/error.component';
+import {PagerComponent} from '../base/pager/pager.component';
 
 @NgModule({
   imports: [
@@ -24,9 +25,9 @@ import { ErrorComponent } from './error/error.component';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     HttpClientModule,
-    HighlightModule.forRoot({ theme: 'rainbow'})
+    HighlightModule.forRoot({ theme: 'rainbow'}),
   ],
-  declarations: [DashboardComponent, ActionComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent],
+  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent],
 })
 export class DashboardModule {
 }

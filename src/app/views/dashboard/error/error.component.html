@@ -28,13 +28,13 @@
         </tr>
         <tr>
           <th width="20%">Date</th>
-          <td>{{ error._source.timestamp | date }}</td>
+          <td>{{ error._source.timestamp | date: 'long'}}</td>
         </tr>
       </table>
 
       <pre><code highlight [textContent]="getErrorHighlightContent()"></code></pre>
 
-      <app-actions [actions]="actions" [pageLimit]="5"></app-actions>
+      <app-actions [forError]="error._id" [pageLimit]="5"></app-actions>
     </div>
   </div>
 </div>

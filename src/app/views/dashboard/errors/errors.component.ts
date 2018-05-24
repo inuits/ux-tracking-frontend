@@ -1,31 +1,39 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 @Component({
-    selector: 'app-errors',
-    templateUrl: './errors.component.html',
-    styleUrls: ['./errors.component.scss']
+  selector: 'app-errors',
+  templateUrl: './errors.component.html',
+  styleUrls: ['./errors.component.scss']
 })
 export class ErrorsComponent implements OnInit {
 
-    @Input() pageLimit = 10;
+  @Input() pageLimit = 10;
 
-    @Input() set errors(val: Error[]) {
-        this.pages = [];
+  totalErrors = 0;
+  errors = [];
 
-        this.amountOfErrors = val.length;
-        while (val.length > 0) {
-            this.pages.push(val.splice(0, this.pageLimit));
-        }
-    }
+  private httpHeaders = new HttpHeaders({
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  });
 
-    amountOfErrors = 0;
-    pages = [];
-    pageSelected = 0;
+  constructor(@Inject(HttpClient) private httpClient) {
+  }
 
-    constructor() {
-    }
+  ngOnInit() {
 
-    ngOnInit() {
-    }
+    this.loadPage(0);
+
+  }
+
+  loadPage(page) {
+    this.httpClient.get('http://localhost:5000/error?limit=' + this.pageLimit + '&from=' + page * this.pageLimit, {
+      'headers': this.httpHeaders
+    })
+      .subscribe((res) => {
+        this.totalErrors = res['total'];
+        this.errors = res['hits'];
+      });
+  }
 
 }

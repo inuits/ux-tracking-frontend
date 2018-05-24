@@ -1,20 +1,14 @@
 <div>
   <div class="card mb-1">
     <h4 class="card-header">
-      <span class="badge badge-danger">{{ amountOfErrors }}</span> Errors
+      <span class="badge badge-danger">{{ totalActions }}</span> Errors
     </h4>
-    <p class="card-body text-muted" *ngIf="pages.length == 0">No errors.</p>
-    <div class="list-group list-group-action" *ngIf="pages.length > 0">
+    <p class="card-body text-muted" *ngIf="errors.length == 0">No errors.</p>
+    <div class="list-group list-group-action" *ngIf="errors.length > 0">
       <!--<app-error *ngFor="let err of pages[pageSelected]" [error]="err"></app-error>-->
-      <app-error *ngFor="let err of pages[pageSelected]" [error]="err"></app-error>
+      <app-error *ngFor="let error of errors" [error]="error"></app-error>
     </div>
   </div>
 
-  <nav aria-label="..." *ngIf="pages.length > 1">
-    <ul class="pagination">
-      <li class="page-item" *ngFor="let page of pages; let i = index" [class.active]="i == pageSelected">
-        <a class="page-link" (click)="pageSelected = i">{{ i+1 }}</a>
-      </li>
-    </ul>
-  </nav>
+  <app-pager [pageLimit]="pageLimit" [amount]="totalErrors" (pageClick)="loadPage($event)"></app-pager>
 </div>

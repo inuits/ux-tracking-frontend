@@ -1,32 +1,48 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnInit} from '@angular/core';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Action} from '../../../domain/Action';
 
 @Component({
-    selector: 'app-actions',
-    templateUrl: './actions.component.html',
-    styleUrls: ['./actions.component.scss']
+  selector: 'app-actions',
+  templateUrl: './actions.component.html',
+  styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit {
 
-    @Input() pageLimit = 10;
+  @Input() pageLimit = 10;
+  @Input() forError: string = null;
 
-    @Input() set actions(val: Action[]) {
-        this.amountOfActions = val.length;
+  totalActions = 0;
+  actions = [];
 
-        while (val.length > 0) {
-            this.pages.push(val.splice(0, this.pageLimit));
-        }
+  private httpHeaders = new HttpHeaders({
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  });
+
+
+  constructor(@Inject(HttpClient) private httpClient) {
+  }
+
+  ngOnInit() {
+    this.loadPage(0);
+  }
+
+  loadPage(page) {
+    let url = 'http://localhost:5000/action';
+
+    if (this.forError !== null) {
+      url += '/for/' + this.forError;
     }
 
-    pages = [];
-    selectedPage = 0;
-    amountOfActions = 0;
+    url += '?limit=' + this.pageLimit + '&from=' + page * this.pageLimit;
 
-    constructor() {
-    }
+    this.httpClient.get(url, {
+      'headers': this.httpHeaders
+    }).subscribe((res) => {
+      this.totalActions = res['total'];
+      this.actions = res['hits'];
+    });
+  }
 
-    ngOnInit() {
-
-    }
 
 }
