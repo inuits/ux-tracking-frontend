@@ -20,6 +20,7 @@ import {PagerComponent} from '../base/pager/pager.component';
   imports: [
     FormsModule,
     DashboardRoutingModule,
+    BsDropdownModule,
     ChartsModule,
     CommonModule,
     BsDropdownModule,

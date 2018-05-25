@@ -1,13 +1,25 @@
 <div>
   <div class="card mb-1">
-    <h4 class="card-header">
-      <span *ngIf="totalActions > 0" class="badge badge-warning">{{ totalActions }}</span> Actions
-    </h4>
-    <p class="card-body text-muted" *ngIf="actions.length == 0">No actions.</p>
-    <div class="list-group list-group-action">
+    <div class="card-header">
+      <h4 class="float-left">
+        <span *ngIf="totalActions" class="badge badge-warning">{{ totalActions }}</span> Actions
+      </h4>
+
+      <div class="btn-group float-right" dropdown>
+        <button dropdownToggle type="button" class="btn btn-secondary dropdown-toggle">
+          {{ pageLimit }} <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li *ngFor="let i of [5,10,20,50,100]" role="menuitem"><a class="dropdown-item" (click)="setPageLimit(i, pager)">{{ i }}</a></li>
+        </ul>
+      </div>
+
+    </div>
+    <p class="card-body text-muted" *ngIf="!actions">No actions.</p>
+    <div class="list-group list-group-action" *ngIf="actions">
       <app-action *ngFor="let action of actions" [action]="action"></app-action>
     </div>
   </div>
 
-  <app-pager [pageLimit]="pageLimit" [amount]="totalActions" (pageClick)="loadPage($event)"></app-pager>
+  <app-pager #pager [pageLimit]="pageLimit" [amount]="totalActions" (pageClick)="loadPage($event)"></app-pager>
 </div>

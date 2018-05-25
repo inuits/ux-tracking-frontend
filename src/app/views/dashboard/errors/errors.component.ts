@@ -11,7 +11,7 @@ export class ErrorsComponent implements OnInit {
   @Input() pageLimit = 10;
 
   totalErrors = 0;
-  errors = [];
+  errors = Array<Error>();
 
   private httpHeaders = new HttpHeaders({
     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -26,11 +26,17 @@ export class ErrorsComponent implements OnInit {
 
   }
 
+  setPageLimit(amount) {
+    this.pageLimit = amount;
+    this.loadPage(0);
+  }
+
   loadPage(page) {
-    this.httpClient.get('http://localhost:5000/error?limit=' + this.pageLimit + '&from=' + page * this.pageLimit, {
+    this.httpClient.get('https://localhost:5000/error?limit=' + this.pageLimit + '&from=' + page * this.pageLimit, {
       'headers': this.httpHeaders
     })
       .subscribe((res) => {
+
         this.totalErrors = res['total'];
         this.errors = res['hits'];
       });

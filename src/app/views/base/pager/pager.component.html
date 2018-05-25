@@ -1,10 +1,10 @@
-<nav aria-label="..." >
+<nav aria-label="..." *ngIf="pageTotal() > 0">
   <ul class="pagination">
-    <li class="page-item" [class.disabled]="pageSelected == 0">
-      <a class="page-link" (click)="loadPage(pageSelected - 1)"><i class="fa fa-caret-left"></i></a>
-    </li>
     <li class="page-item" [class.disabled]="pageTotal() < showLimit || pageSelected < showLimit/2">
-      <a class="page-link" (click)="loadPage(0)">First</a>
+      <a class="page-link" (click)="loadPage(0)"><i class="fa fa-angle-double-left"></i></a>
+    </li>
+    <li class="page-item" [class.disabled]="pageSelected == 0">
+      <a class="page-link" (click)="loadPage(pageSelected - 1)"><i class="fa fa-angle-left"></i></a>
     </li>
     <li class="page-item" *ngIf="pageSelected - showLimit > 1">
       <a class="page-link disabled" >..</a>
@@ -17,11 +17,11 @@
     <li class="page-item" *ngIf="pageTotal() > showLimit && pageSelected < pageTotal() - showLimit/2">
       <a class="page-link disabled">..</a>
     </li>
-    <li class="page-item" [class.disabled]=" pageTotal() <= showLimit || pageSelected >= pageTotal() - showLimit/2">
-      <a class="page-link" (click)="loadPage(pageTotal()-1)">Last</a>
-    </li>
     <li class="page-item" [class.disabled]="pageSelected == pageTotal() - 1">
-      <a class="page-link" (click)="loadPage(pageSelected + 1)"><i class="fa fa-caret-right"></i></a>
+      <a class="page-link" (click)="loadPage(pageSelected + 1)"><i class="fa fa-angle-right"></i></a>
+    </li>
+    <li class="page-item" [class.disabled]=" pageTotal() <= showLimit || pageSelected >= pageTotal() - showLimit/2">
+      <a class="page-link" (click)="loadPage(pageTotal()-1)"><i class="fa fa-angle-double-right"></i></a>
     </li>
   </ul>
 </nav>

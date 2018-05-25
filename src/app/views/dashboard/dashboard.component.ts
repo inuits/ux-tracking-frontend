@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.httpclient.post('http://localhost:5000/auth', {
+    this.httpclient.post('https://localhost:5000/auth', {
       'name': 'sportoffice',
       'key': 'fea2d9945b592ee9e14c3e3ffdc4cf74'
     }).toPromise().then(res => {
