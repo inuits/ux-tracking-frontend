@@ -1,5 +1,6 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ESFilter} from '../filter/ESFilter';
 
 @Component({
   selector: 'app-errors',
@@ -9,6 +10,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class ErrorsComponent implements OnInit {
 
   @Input() pageLimit = 10;
+  @Input() filterOptions: string[] = ['value'];
+  @Input() quickFilters: ESFilter[] = null;
 
   totalErrors = 0;
   errors = Array<Error>();

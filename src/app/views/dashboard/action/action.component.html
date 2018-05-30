@@ -8,7 +8,7 @@
     <i class="float-right">{{ action._source.timestamp | date: "HH:mm"}}<i class="text-muted">:{{
       action._source.timestamp | date: "ss"}}</i></i>
     <br/>
-    <small class="text-muted ml-3">{{ action._source.client }}</small>
+    <small class="text-muted">{{ action._source.client }} <span class="text-primary" *ngIf="action._source.session">| {{ action._source.session }}</span></small>
   </a>
 
   <div *ngIf="!collapse">

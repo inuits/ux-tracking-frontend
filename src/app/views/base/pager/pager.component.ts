@@ -38,8 +38,11 @@ export class PagerComponent implements OnInit {
     return Array(size).fill(0).map((x, i) => i + delta);
   }
 
-  loadPage(page) {
-    this.pageSelected = page;
-    this.pageClick.emit(page);
+  loadPage(page = -1) {
+    if (page > -1) {
+      this.pageSelected = page;
+    }
+
+    this.pageClick.emit(this.pageSelected);
   }
 }

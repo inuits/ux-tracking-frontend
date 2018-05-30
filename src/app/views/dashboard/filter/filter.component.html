@@ -1,0 +1,40 @@
+<div class="row m-2">
+  <small class="align-center"><i class="fa fa-filter"></i> filters</small>
+  <div class="col d-flex">
+      <span *ngFor="let activeFilter of activeFilters; let i = index" class="badge mr-1 btn"
+            [class.badge-success]="activeFilter.isInclude()"
+            [class.badge-danger]="!activeFilter.isInclude()"
+            (click)="onRemoveActiveFilter(i)">
+        <b class="text-monospace">{{activeFilter.field}}</b> | {{ activeFilter.value }} <i
+              class="fa fa-close text-light"></i>
+      </span>
+  </div>
+</div>
+
+<div class="row m-2" *ngIf="showAddFilter">
+  <div class="col-4">
+    <ng-select [items]="filterOptions" [(ngModel)]="newFilter.field" (keyup.enter)="onAddActiveFilter()"></ng-select>
+  </div>
+  <div class="col-2">
+    <ng-select [items]="['include', 'exclude']" [(ngModel)]="newFilter.includes" (keyup.enter)="onAddActiveFilter()"></ng-select>
+  </div>
+  <div class="col-6">
+    <input class="form-control" [(ngModel)]="newFilter.value" (keyup.enter)="onAddActiveFilter()"/>
+  </div>
+</div>
+
+<div class="row m-2 d-flex justify-content-center" *ngIf="quickFilters && showAddFilter">
+  <div class="border p-2">
+    <span *ngFor="let quickFilter of quickFilters" class="badge mr-1 btn"
+          [class.badge-success]="quickFilter.isInclude()"
+          [class.badge-danger]="!quickFilter.isInclude()">
+          <span (click)="newFilter = quickFilter.duplicate(); onAddActiveFilter()">
+            <b class="text-monospace">{{ quickFilter.field }}</b> | {{ quickFilter.value }}</span> &nbsp;
+      <i class="fa fa-pencil" (click)="newFilter = quickFilter.duplicate()"></i>
+    </span>
+  </div>
+</div>
+
+<div class="row d-flex align-items-bottom justify-content-center btn" (click)="showAddFilter = !showAddFilter">
+  <i class="fa" [class.fa-caret-down]="!showAddFilter" [class.fa-caret-up]="showAddFilter"></i>
+</div>

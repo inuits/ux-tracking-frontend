@@ -1,5 +1,6 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {ESFilter} from '../filter/ESFilter';
 
 @Component({
   selector: 'app-actions',
@@ -11,8 +12,17 @@ export class ActionsComponent implements OnInit {
   @Input() pageLimit = 10;
   @Input() forError: string = null;
 
+  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value',];
+  @Input() quickFilters: ESFilter[] = [
+    new ESFilter('method', 'exclude', 'REQ'),
+    new ESFilter('client', 'include', 'sportoffice'),
+    new ESFilter('method', 'include', 'focusout'),
+    new ESFilter('method', 'include', 'click'),
+  ];
+
   totalActions = 0;
   actions = [];
+  activeFilters: ESFilter[] = null;
 
   private httpHeaders = new HttpHeaders({
     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -34,15 +44,22 @@ export class ActionsComponent implements OnInit {
   loadPage(page) {
     let url = 'https://localhost:5000/action';
 
+    const params = [];
+
+    params.push('limit=' + this.pageLimit);
+    params.push('from=' + page * this.pageLimit);
+
+
     if (this.forError !== null) {
-      url += '/for/' + this.forError;
+      params.push('reverse=true');
+      params.push('error_id=' + this.forError);
     }
 
-    url += '?limit=' + this.pageLimit + '&from=' + page * this.pageLimit;
-
-    if (this.forError !== null) {
-      url += '&reverse=true';
+    if (this.activeFilters) {
+      params.push(ESFilter.createQueryParams(this.activeFilters));
     }
+
+    url += '?' + params.join('&');
 
     this.httpClient.get(url, {
       'headers': this.httpHeaders
@@ -51,6 +68,4 @@ export class ActionsComponent implements OnInit {
       this.actions = res['hits'];
     });
   }
-
-
 }

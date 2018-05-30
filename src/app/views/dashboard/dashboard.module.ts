@@ -11,10 +11,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {ActionComponent} from './action/action.component';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import {HighlightModule} from 'ngx-highlightjs';
-import { ActionsComponent } from './actions/actions.component';
-import { ErrorsComponent } from './errors/errors.component';
-import { ErrorComponent } from './error/error.component';
+import {ActionsComponent} from './actions/actions.component';
+import {ErrorsComponent} from './errors/errors.component';
+import {ErrorComponent} from './error/error.component';
 import {PagerComponent} from '../base/pager/pager.component';
+import {NgSelectModule} from '@ng-select/ng-select';
+import { FilterComponent } from './filter/filter.component';
 
 @NgModule({
   imports: [
@@ -26,9 +28,10 @@ import {PagerComponent} from '../base/pager/pager.component';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     HttpClientModule,
-    HighlightModule.forRoot({ theme: 'rainbow'}),
+    HighlightModule.forRoot({theme: 'rainbow'}),
+    NgSelectModule
   ],
-  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent],
+  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent, FilterComponent],
 })
 export class DashboardModule {
 }

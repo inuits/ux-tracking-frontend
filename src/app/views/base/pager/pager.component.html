@@ -7,7 +7,7 @@
       <a class="page-link" (click)="loadPage(pageSelected - 1)"><i class="fa fa-angle-left"></i></a>
     </li>
     <li class="page-item" *ngIf="pageSelected - showLimit > 1">
-      <a class="page-link disabled" >..</a>
+      <a class="page-link disabled">..</a>
     </li>
 
     <li class="page-item" *ngFor="let page of pages()" [class.active]="page == pageSelected">

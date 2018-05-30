@@ -17,6 +17,10 @@
       </div>
     </div>
 
+    <div class="bg-light" hidden>
+      <app-filter [filterOptions]="filterOptions" [quickFilters]="quickFilters"></app-filter>
+    </div>
+
     <p class="card-body text-muted" *ngIf="!errors">No errors.</p>
     <div class="list-group list-group-action" *ngIf="errors">
       <app-error *ngFor="let error of errors" [error]="error"></app-error>

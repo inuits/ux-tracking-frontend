@@ -4,7 +4,7 @@
     <i class="text-muted float-right">{{ error._source.timestamp | timeAgo}}</i>
 
     <br/>
-    <small class="text-muted ml-3">{{ error._source.client }}</small>
+    <small class="text-muted">{{ error._source.client }} <span class="text-primary" *ngIf="error._source.session">| {{ error._source.session }}</span></small>
   </a>
 
   <div *ngIf="!collapse">
