@@ -18,9 +18,10 @@
 
     <div class="bg-light">
       <app-filter
-      [filterOptions]="filterOptions"
-      [quickFilters]="quickFilters"
-      (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
+              [activeFilters]="activeFilters"
+              [filterOptions]="filterOptions"
+              [quickFilters]="quickFilters"
+              (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
     </div>
 
     <p class="card-body text-muted" *ngIf="!actions">No actions.</p>

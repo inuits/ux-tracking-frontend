@@ -10,19 +10,29 @@ import {ESFilter} from '../filter/ESFilter';
 export class ActionsComponent implements OnInit {
 
   @Input() pageLimit = 10;
-  @Input() forError: string = null;
 
-  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value',];
+  // @Input() forError: string = null;
+
+  @Input() set forError(value) {
+    if (this.activeFilters == null) {
+      this.activeFilters = [];
+    }
+
+    this.activeFilters.push(new ESFilter('error_id', 'include', value, false));
+  }
+
+  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value'];
   @Input() quickFilters: ESFilter[] = [
     new ESFilter('method', 'exclude', 'REQ'),
     new ESFilter('client', 'include', 'sportoffice'),
     new ESFilter('method', 'include', 'focusout'),
     new ESFilter('method', 'include', 'click'),
+    new ESFilter('session', 'include', 'admin'),
   ];
 
   totalActions = 0;
   actions = [];
-  activeFilters: ESFilter[] = null;
+  activeFilters: ESFilter[] = [];
 
   private httpHeaders = new HttpHeaders({
     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -48,12 +58,6 @@ export class ActionsComponent implements OnInit {
 
     params.push('limit=' + this.pageLimit);
     params.push('from=' + page * this.pageLimit);
-
-
-    if (this.forError !== null) {
-      params.push('reverse=true');
-      params.push('error_id=' + this.forError);
-    }
 
     if (this.activeFilters) {
       params.push(ESFilter.createQueryParams(this.activeFilters));
