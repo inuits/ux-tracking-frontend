@@ -4,16 +4,9 @@
          [class.btn-dark]="showAddFilter"
          (click)="showAddFilter = !showAddFilter"><i class="fa fa-filter"></i></small>
   <div class="col d-flex align-items-center">
-      <span *ngFor="let activeFilter of activeFilters; let i = index" class="badge mr-1 btn"
-            [class.badge-success]="activeFilter.isInclude()"
-            [class.badge-danger]="!activeFilter.isInclude()"
-            [class.badge-dark]="!activeFilter.removable"
-            (click)="activeFilter.removable && onRemoveActiveFilter(i)">
-
-        <i class="fa" [class.fa-ban]="!activeFilter.isInclude()" [class.fa-check]="activeFilter.isInclude()"></i> |
-        <b class="text-monospace">{{activeFilter.field}}</b>: {{ activeFilter.value }}
-        <i *ngIf="activeFilter.removable" class="fa fa-close text-light"></i>
-      </span>
+      <app-filter-badge *ngFor="let activeFilter of activeFilters; let i = index"
+                        [filter]="activeFilter"
+                        (filterClick)="onRemoveActiveFilter($event)"></app-filter-badge>
   </div>
 </div>
 
@@ -34,14 +27,8 @@
   <div class="border p-2">
     <small class="text-mute m-0 p-0">Quick Picks</small>
     <br/>
-    <span *ngFor="let quickFilter of quickFilters" class="badge mr-1 btn"
-          [class.badge-success]="quickFilter.isInclude()"
-          [class.badge-danger]="!quickFilter.isInclude()">
-          <span (click)="newFilter = quickFilter.duplicate(); onAddActiveFilter()">
-
-        <i class="fa" [class.fa-ban]="!quickFilter.isInclude()" [class.fa-check]="quickFilter.isInclude()"></i> |
-        <b class="text-monospace">{{ quickFilter.field }}</b>: {{ quickFilter.value }}</span> &nbsp;
-      <!--<i class="fa fa-pencil" (click)="newFilter = quickFilter.duplicate()"></i>-->
-    </span>
+    <app-filter-badge *ngFor="let quickFilter of quickFilters"
+                      [filter]="quickFilter"
+                      (filterClick)="newFilter = quickFilter.duplicate(); onAddActiveFilter()"></app-filter-badge> &nbsp;
   </div>
 </div>

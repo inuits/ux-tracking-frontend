@@ -43,8 +43,8 @@ export class FilterComponent implements OnInit {
     }
   }
 
-  onRemoveActiveFilter(index) {
-    this.activeFilters.splice(index, 1);
+  onRemoveActiveFilter(filter) {
+    this.activeFilters.splice(this.activeFilters.indexOf(filter), 1);
     this.filtersChanged.emit(this.activeFilters);
   }
 }

@@ -17,6 +17,7 @@ import {ErrorComponent} from './error/error.component';
 import {PagerComponent} from '../base/pager/pager.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { FilterComponent } from './filter/filter.component';
+import { FilterBadgeComponent } from './filter/filter-badge/filter-badge.component';
 
 @NgModule({
   imports: [
@@ -31,7 +32,7 @@ import { FilterComponent } from './filter/filter.component';
     HighlightModule.forRoot({theme: 'rainbow'}),
     NgSelectModule
   ],
-  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent, FilterComponent],
+  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent, FilterComponent, FilterBadgeComponent],
 })
 export class DashboardModule {
 }

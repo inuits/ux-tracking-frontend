@@ -1,0 +1,11 @@
+<span class="badge mr-1 btn"
+      [class.badge-success]="filter.isInclude()"
+      [class.badge-danger]="!filter.isInclude()"
+      [class.badge-dark]="!filter.removable"
+      (click)="filter.removable && filterClick.emit(filter)">
+
+  <i class="fa" [class.fa-ban]="!filter.isInclude()" [class.fa-check]="filter.isInclude()"></i> |
+  <b class="text-monospace">{{filter.field}}</b>: {{ filter.value }}
+  <i *ngIf="filter.removable" class="fa fa-close text-light"></i>
+</span>
+
