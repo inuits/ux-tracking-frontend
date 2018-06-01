@@ -10,10 +10,10 @@ export class FilterComponent implements OnInit {
 
   @Input() filterOptions: string[] = [];
   @Input() quickFilters: ESFilter[];
+  @Input() activeFilters: ESFilter[] = [];
 
   @Output() filtersChanged: EventEmitter<ESFilter[]> = new EventEmitter();
 
-  activeFilters: ESFilter[] = [];
   newFilter = new ESFilter();
 
   showAddFilter = false;
@@ -29,16 +29,22 @@ export class FilterComponent implements OnInit {
       return;
     }
 
-    if (!this.activeFilters.includes(this.newFilter)) {
-      this.activeFilters.push(this.newFilter);
-    }
+    let containsFilterAlready = false;
+    this.activeFilters.forEach((filter) => {
+      if (filter.sameAs(this.newFilter)) {
+        containsFilterAlready = true;
+      }
+    });
 
-    this.filtersChanged.emit(this.activeFilters);
-    this.newFilter = new ESFilter();
+    if (!containsFilterAlready) {
+      this.activeFilters.push(this.newFilter);
+      this.filtersChanged.emit(this.activeFilters);
+      this.newFilter = new ESFilter();
+    }
   }
 
-  onRemoveActiveFilter(index) {
-    this.activeFilters.splice(index, 1);
+  onRemoveActiveFilter(filter) {
+    this.activeFilters.splice(this.activeFilters.indexOf(filter), 1);
     this.filtersChanged.emit(this.activeFilters);
   }
 }

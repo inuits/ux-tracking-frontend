@@ -19,6 +19,7 @@
 
         <div class="bg-light">
             <app-filter
+                    [activeFilters]="activeFilters"
                     [filterOptions]="filterOptions"
                     [quickFilters]="quickFilters"
                     (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>

@@ -26,7 +26,7 @@ export class ESFilter {
   }
 
 
-  constructor(private field: string = null, private includes: string = null, private value: string = null) {
+  constructor(private field: string = null, private includes: string = null, private value: string = null, public removable: boolean = true) {
   }
 
   isInclude(): boolean {
@@ -48,7 +48,12 @@ export class ESFilter {
       param += '!';
     }
 
-    return param + this.value;
+    return param + this.value.toLowerCase();
+  }
+
+  sameAs(filter: ESFilter): boolean {
+    return filter.field.toLowerCase() === this.field.toLowerCase()
+      && filter.value.toLowerCase() === this.value.toLowerCase();
   }
 
 }
