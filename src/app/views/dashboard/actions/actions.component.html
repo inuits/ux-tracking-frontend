@@ -5,6 +5,11 @@
                 <span *ngIf="totalActions" class="badge badge-warning">{{ totalActions }}</span> Actions
             </h4>
 
+
+            <img src="/assets/img/cypress/logo-cypress.png" alt="cypress_logo" class="img-responsive cypressLogo"
+                 (click)="show = !show">
+
+
             <div class="btn-group float-right" dropdown>
                 <button dropdownToggle type="button" class="btn btn-secondary dropdown-toggle">
                     {{ pageLimit }} <span class="caret"></span>
@@ -14,7 +19,21 @@
                                                                               (click)="setPageLimit(i, pager)">{{ i
                         }}</a></li>
                 </ul>
+
             </div>
+        </div>
+
+        <div *ngIf="show" class="bg-light pt-3 px-0 rounded m-0">
+            <p class="mb-1 mx-4">Get a automatic generated .js file for running a cypress test of these
+                actions</p>
+            <ul class="mb-1 mx-3">
+                <li><span class="badge badge-dark">npm install cypress --save</span></li>
+                <li>Save the downloaded file in your cypress/integration folder</li>
+                <li><span class="badge badge-dark">npx cypress open</span></li>
+                <li>Select your test</li>
+            </ul>
+            <button class="btn btn-success mx-4 mt-2" (click)="getActionsForTest()">Get Cypress test</button>
+            <hr class="mb-0">
         </div>
 
         <div class="bg-light">
