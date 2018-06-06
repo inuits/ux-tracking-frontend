@@ -1,40 +1,56 @@
 <div>
-  <a class="list-group-item list-group-item-action text-info" (click)="collapse = !collapse">
-    <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;<strong>{{ error._source.error }}</strong>
-    <i class="text-muted float-right">{{ error._source.timestamp | timeAgo}}</i>
+    <a class="list-group-item list-group-item-action text-info" (click)="collapse = !collapse">
+        <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;<strong>{{ error._source.error }}</strong>
+        <i class="text-muted float-right">{{ error._source.timestamp | timeAgo}}</i>
 
-    <br/>
-    <small class="text-muted">{{ error._source.client }} <span class="text-primary" *ngIf="error._source.session">| {{ error._source.session }}</span></small>
-  </a>
+        <br/>
+        <small class="text-muted">{{ error._source.client }} <span class="text-primary" *ngIf="error._source.session">| {{ error._source.session }}</span>
+        </small>
+    </a>
 
-  <div *ngIf="!collapse">
-    <div class="card-body">
-      <table class="table">
-        <tr *ngIf="error._source.source">
-          <th>Source</th>
-          <td>{{ error._source.source }}</td>
-        </tr>
-        <tr *ngIf="error._source.position">
-          <th>Position</th>
-          <td>{{ error._source.position }}</td>
-        </tr>
-        <tr *ngIf="error._source.client">
-          <th>Client</th>
-          <td>{{ error._source.client }}</td>
-        </tr>
-        <tr *ngIf="error._source.session">
-          <th>Session</th>
-          <td>{{ error._source.session }}</td>
-        </tr>
-        <tr>
-          <th width="20%">Date</th>
-          <td>{{ error._source.timestamp | date: 'long'}}</td>
-        </tr>
-      </table>
+    <div *ngIf="!collapse">
+        <div class="card-body">
+            <table class="table">
+                <tr *ngIf="error._source.source">
+                    <th>Source</th>
+                    <td>{{ error._source.source }}</td>
+                </tr>
+                <tr *ngIf="error._source.position">
+                    <th>Position</th>
+                    <td>{{ error._source.position }}</td>
+                </tr>
+                <tr *ngIf="error._source.client">
+                    <th>Client</th>
+                    <td>{{ error._source.client }}</td>
+                </tr>
+                <tr *ngIf="error._source.session">
+                    <th>Session</th>
+                    <td>{{ error._source.session }}</td>
+                </tr>
+                <tr>
+                    <th width="20%">Date</th>
+                    <td>{{ error._source.timestamp | date: 'long'}}</td>
+                </tr>
+            </table>
 
-      <pre><code highlight [textContent]="getErrorHighlightContent()"></code></pre>
+            <pre><code highlight [textContent]="getErrorHighlightContent()"></code></pre>
 
-      <app-actions [forError]="error._id" [pageLimit]="5"></app-actions>
+            <button class="btn btn-success mb-3" (click)="makeCypressTest()">Get Cypress test</button>
+            <span class="fa fa-question-circle-o text-secondary ml-1 align-top" (click)="show = !show"></span>
+
+            <div *ngIf="show" class="bg-light p-3 mb-3 rounded">
+                <p class="mb-1">Get a automatic generated .js file for running a cypress test of these
+                    actions</p>
+                <ul class="mb-1">
+                    <li><span class="badge badge-dark">npm install cypress --save</span></li>
+                    <li>Save the downloaded file in your cypress/integration folder</li>
+                    <li><span class="badge badge-dark">npx cypress open</span></li>
+                    <li>Select your test</li>
+                </ul>
+            </div>
+
+            <app-actions [forError]="error._id" [pageLimit]="5"></app-actions>
+        </div>
     </div>
-  </div>
 </div>
+
