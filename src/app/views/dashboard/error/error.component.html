@@ -35,19 +35,6 @@
 
             <pre><code highlight [textContent]="getErrorHighlightContent()"></code></pre>
 
-            <button class="btn btn-success mb-3" (click)="makeCypressTest()">Get Cypress test</button>
-            <span class="fa fa-question-circle-o text-secondary ml-1 align-top" (click)="show = !show"></span>
-
-            <div *ngIf="show" class="bg-light p-3 mb-3 rounded">
-                <p class="mb-1">Get a automatic generated .js file for running a cypress test of these
-                    actions</p>
-                <ul class="mb-1">
-                    <li><span class="badge badge-dark">npm install cypress --save</span></li>
-                    <li>Save the downloaded file in your cypress/integration folder</li>
-                    <li><span class="badge badge-dark">npx cypress open</span></li>
-                    <li>Select your test</li>
-                </ul>
-            </div>
 
             <app-actions [forError]="error._id" [pageLimit]="5"></app-actions>
         </div>
