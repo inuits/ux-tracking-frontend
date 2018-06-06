@@ -4,9 +4,9 @@
          [class.btn-dark]="showAddFilter"
          (click)="showAddFilter = !showAddFilter"><i class="fa fa-filter"></i></small>
   <div class="col d-flex align-items-center">
-      <app-filter-badge *ngFor="let activeFilter of activeFilters; let i = index"
-                        [filter]="activeFilter"
-                        (filterClick)="onRemoveActiveFilter($event)"></app-filter-badge>
+    <app-filter-badge *ngFor="let activeFilter of activeFilters; let i = index"
+                      [filter]="activeFilter"
+                      (filterClick)="onRemoveActiveFilter($event)"></app-filter-badge>
   </div>
 </div>
 
@@ -29,6 +29,7 @@
     <br/>
     <app-filter-badge *ngFor="let quickFilter of quickFilters"
                       [filter]="quickFilter"
-                      (filterClick)="newFilter = quickFilter.duplicate(); onAddActiveFilter()"></app-filter-badge> &nbsp;
+                      (filterClick)="newFilter = quickFilter.duplicate(); onAddActiveFilter()"></app-filter-badge>
+    &nbsp;
   </div>
 </div>

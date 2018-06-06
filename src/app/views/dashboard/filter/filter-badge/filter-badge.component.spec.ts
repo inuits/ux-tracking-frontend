@@ -1,6 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { FilterBadgeComponent } from './filter-badge.component';
+import {FilterBadgeComponent} from './filter-badge.component';
 
 describe('FilterBadgeComponent', () => {
   let component: FilterBadgeComponent;
@@ -8,9 +8,9 @@ describe('FilterBadgeComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FilterBadgeComponent ]
+      declarations: [FilterBadgeComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
