@@ -34,7 +34,7 @@ export class ErrorComponent implements OnInit {
   }
 
   fetchActionsForError() {
-    this.httpclient.get('https://localhost:5000/action?error_id=' + this.error['_id'],
+    this.httpclient.get('https://localhost:5000/action',
       {
         headers: new HttpHeaders({
           'Authorization': 'Bearer ' + localStorage.getItem('token')

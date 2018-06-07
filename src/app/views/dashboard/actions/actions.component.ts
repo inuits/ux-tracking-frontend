@@ -12,17 +12,19 @@ export class ActionsComponent implements OnInit {
 
   @Input() pageLimit = 10;
 
-  // @Input() forError: string = null;
-
-  @Input() set forError(value) {
+  @Input() set error(value) {
     if (this.activeFilters == null) {
       this.activeFilters = [];
     }
 
-    this.activeFilters.push(new ESFilter('error_id', 'include', value, false));
+    this.activeFilters.push(new ESFilter('client', 'include', value._source.client, false));
+    this.activeFilters.push(new ESFilter('session', 'include', value._source.session, false));
+    this.activeFilters.push(new ESFilter('timestamp', 'include', '<' + value._source.timestamp, false));
+
+    this.reverse = true;
   }
 
-  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value'];
+  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value', 'timestamp'];
   @Input() quickFilters: ESFilter[] = [
     new ESFilter('method', 'exclude', 'REQ'),
     new ESFilter('client', 'include', 'sportoffice'),
@@ -34,6 +36,7 @@ export class ActionsComponent implements OnInit {
   totalActions = 0;
   actions = [];
   activeFilters: ESFilter[] = [];
+  private reverse = false;
 
   private httpHeaders = new HttpHeaders({
     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -59,6 +62,7 @@ export class ActionsComponent implements OnInit {
 
     params.push('limit=' + this.pageLimit);
     params.push('from=' + page * this.pageLimit);
+    params.push('reverse=' + this.reverse);
 
     if (this.activeFilters) {
       params.push(ESFilter.createQueryParams(this.activeFilters));

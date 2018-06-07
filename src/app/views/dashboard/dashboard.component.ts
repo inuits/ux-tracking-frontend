@@ -18,7 +18,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.httpclient.post('https://localhost:5000/auth', {
       'name': 'sportoffice',
-      'key': 'fea2d9945b592ee9e14c3e3ffdc4cf74'
+      'key': 'sportoase'
     }).toPromise().then(res => {
       this.httpHeaders = new HttpHeaders({Authorization: 'Bearer ' + res['access_token']});
       localStorage.setItem('token', res['access_token']);
