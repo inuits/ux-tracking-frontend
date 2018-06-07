@@ -81,7 +81,7 @@ export class ActionsComponent implements OnInit {
   getActionsForTest() {
     this.checkFilters();
 
-    this.httpClient.get('https://localhost:5000/action?' + ESFilter.createQueryParams(this.activeFilters) + '',
+    this.httpClient.get('https://localhost:5000/action?reverse=true?' + ESFilter.createQueryParams(this.activeFilters) + '',
       {
         headers: this.httpHeaders
       }).toPromise().then(res => {
@@ -106,11 +106,10 @@ export class ActionsComponent implements OnInit {
   }
 
   createCypressTest(testActions) {
-    testActions.reverse();
     const cypressActions = [];
-    cypressActions.push('describe(\'Sportoffice login\', function () {\n' +
-      '    it("Gets, types and asserts", function () {');
-    const url = 'https://sportoase-multi-uat.inuits.eu' + testActions[0]._source.path;
+    cypressActions.push('describe(\'Automatic Cypress test\', function () {\n' +
+      '    it("Gets, clicks, asserts", function () {');
+    const url = '' + testActions[0]._source.path + '';
     cypressActions.push('cy.visit(\'' + url + '\');');
     for (const action of testActions) {
 
