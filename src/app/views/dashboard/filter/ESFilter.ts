@@ -1,4 +1,12 @@
 export class ESFilter {
+  constructor(
+    private field: string = null,
+    private includes: string = null,
+    private value: string = null,
+    public removable: boolean = true
+  ) {
+  }
+
   static createQueryParams(filters: ESFilter[]): string {
     const params = new Map<string, string[]>();
 
@@ -25,12 +33,8 @@ export class ESFilter {
     return query.substring(0, query.length - 1);
   }
 
-
-  constructor(private field: string = null, private includes: string = null, private value: string = null, public removable: boolean = true) {
-  }
-
   isInclude(): boolean {
-    return this.includes === 'include';
+    return this.includes !== 'exclude';
   }
 
   isValid(): boolean {

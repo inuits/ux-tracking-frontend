@@ -11,6 +11,24 @@ import {saveAs} from 'file-saver';
 export class ActionsComponent implements OnInit {
 
   @Input() pageLimit = 10;
+  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value', 'timestamp'];
+  @Input() quickFilters: ESFilter[] = [
+    new ESFilter('method', 'exclude', 'REQ'),
+    new ESFilter('client', 'include', 'sportoffice'),
+    new ESFilter('method', 'include', 'focusout'),
+    new ESFilter('method', 'include', 'click'),
+    new ESFilter('session', 'include', 'admin'),
+  ];
+  totalActions = 0;
+  actions = [];
+  activeFilters: ESFilter[] = [];
+  private reverse = false;
+  private httpHeaders = new HttpHeaders({
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  });
+
+  constructor(@Inject(HttpClient) private httpClient) {
+  }
 
   @Input() set error(value) {
     if (this.activeFilters == null) {
@@ -22,28 +40,6 @@ export class ActionsComponent implements OnInit {
     this.activeFilters.push(new ESFilter('timestamp', 'include', '<' + value._source.timestamp, false));
 
     this.reverse = true;
-  }
-
-  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'position', 'session', 'type', 'value', 'timestamp'];
-  @Input() quickFilters: ESFilter[] = [
-    new ESFilter('method', 'exclude', 'REQ'),
-    new ESFilter('client', 'include', 'sportoffice'),
-    new ESFilter('method', 'include', 'focusout'),
-    new ESFilter('method', 'include', 'click'),
-    new ESFilter('session', 'include', 'admin'),
-  ];
-
-  totalActions = 0;
-  actions = [];
-  activeFilters: ESFilter[] = [];
-  private reverse = false;
-
-  private httpHeaders = new HttpHeaders({
-    'Authorization': 'Bearer ' + localStorage.getItem('token')
-  });
-
-
-  constructor(@Inject(HttpClient) private httpClient) {
   }
 
   ngOnInit() {
@@ -73,15 +69,15 @@ export class ActionsComponent implements OnInit {
     this.httpClient.get(url, {
       'headers': this.httpHeaders
     }).subscribe((res) => {
-      this.totalActions = res['total'];
-      this.actions = res['hits'];
+      this.totalActions = res != null ? res['total'] : 0;
+      this.actions = res != null ? res['hits'] : [];
     });
   }
 
   getActionsForTest() {
     this.checkFilters();
 
-    this.httpClient.get('https://localhost:5000/action?reverse=true?' + ESFilter.createQueryParams(this.activeFilters) + '',
+    this.httpClient.get('https://localhost:5000/action?' + ESFilter.createQueryParams(this.activeFilters) + '',
       {
         headers: this.httpHeaders
       }).toPromise().then(res => {
@@ -106,10 +102,11 @@ export class ActionsComponent implements OnInit {
   }
 
   createCypressTest(testActions) {
+    testActions.reverse();
     const cypressActions = [];
-    cypressActions.push('describe(\'Automatic Cypress test\', function () {\n' +
-      '    it("Gets, clicks, asserts", function () {');
-    const url = '' + testActions[0]._source.path + '';
+    cypressActions.push('describe(\'Sportoffice login\', function () {\n' +
+      '    it("Gets, types and asserts", function () {');
+    const url = 'https://sportoase-multi-uat.inuits.eu' + testActions[0]._source.path;
     cypressActions.push('cy.visit(\'' + url + '\');');
     for (const action of testActions) {
 

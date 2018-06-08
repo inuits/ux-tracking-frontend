@@ -44,8 +44,12 @@
                     (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
         </div>
 
-        <p class="card-body text-muted" *ngIf="!actions">No actions.</p>
-        <img class="img-responsive" src="/assets/img/emptyStates/emptyActionState.png" *ngIf="actions.length == 0"/>
+        <div class="card-body empty-state text-center  p-4" *ngIf="totalActions == 0">
+            <h3>No Actions</h3>
+            <h5>Enjoy this moment, it won't last</h5>
+        </div>
+
+
         <div class="list-group list-group-action" *ngIf="actions">
 
             <app-action *ngFor="let action of actions" [action]="action"></app-action>

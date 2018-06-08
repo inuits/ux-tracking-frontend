@@ -14,7 +14,6 @@ import {HighlightModule} from 'ngx-highlightjs';
 import {ActionsComponent} from './actions/actions.component';
 import {ErrorsComponent} from './errors/errors.component';
 import {ErrorComponent} from './error/error.component';
-import {TimelineComponent} from './timeline/timeline.component';
 import {PagerComponent} from '../base/pager/pager.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {FilterComponent} from './filter/filter.component';
@@ -33,7 +32,8 @@ import {FilterBadgeComponent} from './filter/filter-badge/filter-badge.component
     HighlightModule.forRoot({theme: 'rainbow'}),
     NgSelectModule
   ],
-  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent, ErrorsComponent, ErrorComponent, FilterComponent, FilterBadgeComponent, TimelineComponent],
+  declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent,
+    ErrorsComponent, ErrorComponent, FilterComponent, FilterBadgeComponent],
 })
 export class DashboardModule {
 }

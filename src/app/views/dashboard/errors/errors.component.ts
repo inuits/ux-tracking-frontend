@@ -40,8 +40,8 @@ export class ErrorsComponent implements OnInit {
     })
       .subscribe((res) => {
 
-        this.totalErrors = res['total'];
-        this.errors = res['hits'];
+        this.totalErrors = res != null ? res['total'] : 0;
+        this.errors = res != null ? res['hits'] : 0;
       });
   }
 
