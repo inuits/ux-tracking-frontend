@@ -20,23 +20,25 @@
 
     <div class="bg-light">
       <app-filter
-      ></app-filter>
+              [activeFilters]="activeFilters"
+              [filterOptions]="filterOptions"
+              [quickFilters]="quickFilters"
+              (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
     </div>
 
     <div class="bg-light" hidden>
       <app-filter [filterOptions]="filterOptions" [quickFilters]="quickFilters"></app-filter>
     </div>
 
-    <div class="card-body empty-state text-center  p-4" *ngIf="totalErrors == 0">
+    <div class="card-body empty-state text-center text-white p-4" *ngIf="totalErrors == 0">
       <h3>No Errors</h3>
       <h5>Enjoy this moment, it won't last</h5>
     </div>
 
-    <img class="img-responsive" src="/assets/img/emptyStates/emptyErrorState.png" *ngIf="errors.length == 0"/>
     <div class="list-group list-group-action" *ngIf="errors">
       <app-error *ngFor="let error of errors" [error]="error"></app-error>
     </div>
   </div>
 
-  <app-pager [pageLimit]="pageLimit" [amount]="totalErrors" (pageClick)="loadPage($event)"></app-pager>
+  <app-pager #pager [pageLimit]="pageLimit" [amount]="totalErrors" (pageClick)="loadPage($event)"></app-pager>
 </div>

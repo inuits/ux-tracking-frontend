@@ -10,8 +10,14 @@ import {ESFilter} from '../filter/ESFilter';
 export class ErrorsComponent implements OnInit {
 
   @Input() pageLimit = 10;
-  @Input() filterOptions: string[] = ['value'];
-  @Input() quickFilters: ESFilter[] = null;
+
+  @Input() filterOptions: string[] = ['client', 'id', 'method', 'path', 'session', 'value', 'timestamp'];
+  @Input() quickFilters: ESFilter[] = [
+    new ESFilter('method', 'exclude', 'REQ'),
+    new ESFilter('client', 'include', 'sportoffice'),
+    new ESFilter('session', 'include', 'uxtracker'),
+  ];
+  activeFilters: ESFilter[] = [];
 
   totalErrors = 0;
   errors = Array<Error>();

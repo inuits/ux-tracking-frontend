@@ -40,7 +40,7 @@ export class ErrorComponent implements OnInit {
           'Authorization': 'Bearer ' + localStorage.getItem('token')
         })
       }).toPromise().then(res => {
-      this.actions = res['hits'] as Array<Object>;
+      this.actions = res != null ? res['hits'] as Array<Object> : [];
     });
   }
 }

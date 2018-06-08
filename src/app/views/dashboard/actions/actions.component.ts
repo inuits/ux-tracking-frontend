@@ -2,6 +2,7 @@ import {Component, Inject, Input, OnInit} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {ESFilter} from '../filter/ESFilter';
 import {saveAs} from 'file-saver';
+import {FilterComponent} from '../filter/filter.component';
 
 @Component({
   selector: 'app-actions',
@@ -17,15 +18,19 @@ export class ActionsComponent implements OnInit {
     new ESFilter('client', 'include', 'sportoffice'),
     new ESFilter('method', 'include', 'focusout'),
     new ESFilter('method', 'include', 'click'),
-    new ESFilter('session', 'include', 'admin'),
+    new ESFilter('session', 'include', 'uxtracker'),
   ];
+  activeFilters: ESFilter[] = [];
+
   totalActions = 0;
   actions = [];
-  activeFilters: ESFilter[] = [];
   private reverse = false;
   private httpHeaders = new HttpHeaders({
     'Authorization': 'Bearer ' + localStorage.getItem('token')
   });
+
+  // TODO remove
+  cyUrl: string = 'https://sportoase-multi-uat.inuits.eu';
 
   constructor(@Inject(HttpClient) private httpClient) {
   }
@@ -74,18 +79,22 @@ export class ActionsComponent implements OnInit {
     });
   }
 
-  getActionsForTest() {
-    this.checkFilters();
+  getActionsForTest(filtersComponent: FilterComponent) {
+    this.checkFilters(filtersComponent);
 
-    this.httpClient.get('https://localhost:5000/action?' + ESFilter.createQueryParams(this.activeFilters) + '',
+    this.httpClient.get('https://localhost:5000/action?reverse=true&' + ESFilter.createQueryParams(this.activeFilters) + '',
       {
         headers: this.httpHeaders
       }).toPromise().then(res => {
-      this.createCypressTest(res['hits'] as Array<Object>);
+      if (res != null) {
+        this.createCypressTest(res['hits'] as Array<Object>);
+      } else {
+        alert('Oops! Seems like there is no response from the server..');
+      }
     });
   }
 
-  checkFilters() {
+  checkFilters(filtersComponent: FilterComponent) {
     let bool = false;
     for (const filter of this.activeFilters) {
       if (filter['value'].toLowerCase() === 'req' && filter['includes'] === 'include') {
@@ -97,32 +106,43 @@ export class ActionsComponent implements OnInit {
     }
 
     if (bool === false) {
-      this.activeFilters.push(new ESFilter('method', 'exclude', 'REQ'));
+      filtersComponent.setNewFilter(new ESFilter('method', 'exclude', 'req'));
     }
   }
 
   createCypressTest(testActions) {
-    testActions.reverse();
     const cypressActions = [];
-    cypressActions.push('describe(\'Sportoffice login\', function () {\n' +
-      '    it("Gets, types and asserts", function () {');
-    const url = 'https://sportoase-multi-uat.inuits.eu' + testActions[0]._source.path;
-    cypressActions.push('cy.visit(\'' + url + '\');');
+    cypressActions.push('describe(\'Automatic Cypress Test\', function () {\n' +
+      '    it("' + testActions[0]._source.timestamp + '", function () {');
+
+    const url = this.cyUrl + testActions[0]._source.path;
+
+    cypressActions.push('cy.visit("' + url + '");');
+    cypressActions.push('cy.pause()');
+
+    if (url.toLowerCase().indexOf('login') < 0) {
+      cypressActions.push('cy.visit("' + url + '");');
+    }
+
     for (const action of testActions) {
 
-      if (action._source.tree === '') {
-        cypressActions.push('cy.get(\'' + action._source.type + '\').contains(\'' + action._source.value + '\').click();');
-      } else {
-        if (action._source.method === 'focusout') {
-          if (action._source.value !== '') {
-            cypressActions.push('cy.get(\'' + action._source.tree + '\').type(\'' +
-              action._source.value + '\').should(\'have.value\', \'' + action._source.value + '\');');
-          } else {
-            cypressActions.push('cy.get(\'' + action._source.tree + '\');');
-          }
+      if (action._source.path.toLowerCase().indexOf('login')) {
+
+        if (action._source.tree === '') {
+          cypressActions.push('cy.get(\'' + action._source.type + '\').contains(\'' + action._source.value + '\').click();');
         } else {
-          cypressActions.push('cy.get(\'' + action._source.tree + '\').click();');
+          if (action._source.method === 'focusout') {
+            if (action._source.value !== '') {
+              cypressActions.push('cy.get(\'' + action._source.tree + '\').type(\'' +
+                action._source.value + '\').should(\'have.value\', \'' + action._source.value + '\');');
+            } else {
+              cypressActions.push('cy.get(\'' + action._source.tree + '\');');
+            }
+          } else {
+            cypressActions.push('cy.get(\'' + action._source.tree + '\').click();');
+          }
         }
+
       }
     }
 

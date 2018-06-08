@@ -1,60 +1,70 @@
 <div>
-    <div class="card mb-1">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h4 class="float-left">
-                <span *ngIf="totalActions" class="badge badge-warning">{{ totalActions }}</span> Actions
-            </h4>
+  <div class="card mb-1">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h4 class="float-left">
+        <span *ngIf="totalActions" class="badge badge-warning">{{ totalActions }}</span> Actions
+      </h4>
 
 
-            <img src="/assets/img/cypress/logo-cypress.png" alt="cypress_logo" class="img-responsive cypressLogo"
-                 (click)="show = !show">
+      <img src="/assets/img/cypress/logo-cypress.png" alt="cypress_logo" class="img-responsive cypressLogo"
+           (click)="showCypress = !showCypress">
 
 
-            <div class="btn-group float-right" dropdown>
-                <button dropdownToggle type="button" class="btn btn-secondary dropdown-toggle">
-                    {{ pageLimit }} <span class="caret"></span>
-                </button>
-                <ul *dropdownMenu class="dropdown-menu" role="menu">
-                    <li *ngFor="let i of [5,10,20,50,100]" role="menuitem"><a class="dropdown-item"
-                                                                              (click)="setPageLimit(i, pager)">{{ i
-                        }}</a></li>
-                </ul>
+      <div class="btn-group float-right" dropdown>
+        <button dropdownToggle type="button" class="btn btn-secondary dropdown-toggle">
+          {{ pageLimit }} <span class="caret"></span>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu">
+          <li *ngFor="let i of [5,10,20,50,100]" role="menuitem"><a class="dropdown-item"
+                                                                    (click)="setPageLimit(i, pager)">{{ i
+            }}</a></li>
+        </ul>
 
-            </div>
-        </div>
-
-        <div *ngIf="show" class="bg-light pt-3 px-0 rounded m-0">
-            <p class="mb-1 mx-4">Get a automatic generated .js file for running a cypress test of these
-                actions</p>
-            <ul class="mb-1 mx-3">
-                <li><span class="badge badge-dark">npm install cypress --save</span></li>
-                <li>Save the downloaded file in your cypress/integration folder</li>
-                <li><span class="badge badge-dark">npx cypress open</span></li>
-                <li>Select your test</li>
-            </ul>
-            <button class="btn btn-success mx-4 mt-2" (click)="getActionsForTest()">Get Cypress test</button>
-            <hr class="mb-0">
-        </div>
-
-        <div class="bg-light">
-            <app-filter
-                    [activeFilters]="activeFilters"
-                    [filterOptions]="filterOptions"
-                    [quickFilters]="quickFilters"
-                    (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
-        </div>
-
-        <div class="card-body empty-state text-center  p-4" *ngIf="totalActions == 0">
-            <h3>No Actions</h3>
-            <h5>Enjoy this moment, it won't last</h5>
-        </div>
-
-
-        <div class="list-group list-group-action" *ngIf="actions">
-
-            <app-action *ngFor="let action of actions" [action]="action"></app-action>
-        </div>
+      </div>
     </div>
 
-    <app-pager #pager [pageLimit]="pageLimit" [amount]="totalActions" (pageClick)="loadPage($event)"></app-pager>
+    <div *ngIf="showCypress" class="bg-light pt-3 px-0 rounded m-0">
+      <p class="mb-1 mx-4">Get a automatic generated .js file for running a cypress test of these
+        actions</p>
+      <ul class="mb-1 mx-3">
+        <li><span class="badge badge-dark">npm install cypress --save</span></li>
+        <li>Save the downloaded file in your cypress/integration folder</li>
+        <li><span class="badge badge-dark">npx cypress open</span></li>
+        <li>Select your test</li>
+      </ul>
+
+      <div class="input-group m-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="addon-cy-url">baseurl</span>
+        </div>
+        <input type="text" class="form-control" placeholder="https://your-url-here.com/" aria-label="baseurl"
+               aria-describedby="addon-cy-url" [(ngModel)]="cyUrl">
+      </div>
+
+      <button class="btn btn-success mx-4 mt-2" (click)="getActionsForTest(filters)">Get Cypress test</button>
+      <hr class="mb-0">
+
+    </div>
+
+
+    <div class="bg-light">
+      <app-filter #filters
+                  [activeFilters]="activeFilters"
+                  [filterOptions]="filterOptions"
+                  [quickFilters]="quickFilters"
+                  (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
+    </div>
+
+    <div class="card-body empty-state text-center  p-4" *ngIf="totalActions == 0">
+      <h3>No Actions</h3>
+      <h5>Enjoy this moment, it won't last</h5>
+    </div>
+
+
+    <div class="list-group list-group-action" *ngIf="actions">
+      <app-action *ngFor="let action of actions" [action]="action"></app-action>
+    </div>
+  </div>
+
+  <app-pager #pager [pageLimit]="pageLimit" [amount]="totalActions" (pageClick)="loadPage($event)"></app-pager>
 </div>

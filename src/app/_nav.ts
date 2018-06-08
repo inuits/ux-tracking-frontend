@@ -3,20 +3,11 @@ export const navItems = [
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'icon-speedometer',
-      badge: {
-        variant: 'info',
-        text: 'NEW'
-      }
+      // badge: {
+      //   variant: 'info',
+      //   text: 'NEW'
+      // }
     },
-    {
-      name: 'Tests',
-      url: '/tests',
-      icon: 'icon-cursor',
-      badge: {
-        variant: 'info',
-        text: 'NEW'
-      }
-    }
     /*  {
         title: true,
         name: 'Theme'

@@ -49,10 +49,16 @@
           <td>{{ action._source.tree }}</td>
         </tr>
         <tr>
-          <th width="20%">timestamp</th>
+          <th width="20%">Date</th>
           <td>
             {{ action._source.timestamp | date : "dd MMM yyyy HH:mm" }}
             <span class="text-muted">:{{ action._source.timestamp | date : "ss"}}</span>
+          </td>
+        </tr>
+        <tr>
+          <th width="20%">timestamp</th>
+          <td>
+            {{ action._source.timestamp }}
           </td>
         </tr>
       </table>

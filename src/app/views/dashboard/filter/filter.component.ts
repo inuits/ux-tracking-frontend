@@ -24,6 +24,14 @@ export class FilterComponent implements OnInit {
   ngOnInit() {
   }
 
+  setNewFilter(filter: ESFilter, push: boolean = true) {
+    this.newFilter = filter;
+
+    if (push) {
+      this.onAddActiveFilter();
+    }
+  }
+
   onAddActiveFilter() {
     if (!this.newFilter.isValid()) {
       return;
