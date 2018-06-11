@@ -22,3 +22,5 @@ ng serve [-o]
 
 This will run on port 4200 by default.
 `-o` will automatically open your browser on the dashboard
+
+For more info please checkout the [Wiki](https://github.com/inuits/ux-tracking-frontend/wiki)
