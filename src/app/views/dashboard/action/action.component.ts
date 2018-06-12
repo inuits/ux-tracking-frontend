@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {Action} from '../../../domain/Action';
 
 @Component({
   selector: 'app-action',
@@ -8,7 +9,7 @@ import {Component, Input, OnInit} from '@angular/core';
 export class ActionComponent implements OnInit {
 
   @Input()
-  public action = {};
+  public action: Action;
 
   collapse = true;
 
@@ -25,7 +26,7 @@ export class ActionComponent implements OnInit {
 
 
   getActionColor(action) {
-    switch (action._source.method.toLowerCase()) {
+    switch (action.method.toLowerCase()) {
       case 'req':
         return 'warning';
       case 'click':

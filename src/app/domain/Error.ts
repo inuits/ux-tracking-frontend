@@ -1,9 +1,10 @@
-export class Error {
-    client: String;
-    session: String;
-    errror: String;
-    position: String;
-    source: String;
-    stack: String;
-    timestamp: number;
+export interface Error {
+  id: string;
+  client: string;
+  session: string;
+  error: string;
+  position: string;
+  source: string;
+  stack: string;
+  timestamp: number;
 }
