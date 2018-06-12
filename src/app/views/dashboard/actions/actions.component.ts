@@ -37,9 +37,9 @@ export class ActionsComponent implements OnInit {
       this.activeFilters = [];
     }
 
-    this.activeFilters.push(new ESFilter('client', 'include', value._source.client, false));
-    this.activeFilters.push(new ESFilter('session', 'include', value._source.session, false));
-    this.activeFilters.push(new ESFilter('timestamp', 'include', '<' + value._source.timestamp, false));
+    this.activeFilters.push(new ESFilter('client', 'include', value.client, false));
+    this.activeFilters.push(new ESFilter('session', 'include', value.session, false));
+    this.activeFilters.push(new ESFilter('timestamp', 'include', '<' + value.timestamp, false));
 
     this.reverse = true;
   }
@@ -107,7 +107,7 @@ export class ActionsComponent implements OnInit {
     const url = this.cyUrl + testActions[0].path;
 
     cypressActions.push('cy.visit("' + url + '");');
-    cypressActions.push('cy.pause()');
+    cypressActions.push('cy.pause();');
 
     if (url.toLowerCase().indexOf('login') < 0) {
       cypressActions.push('cy.visit("' + url + '");');

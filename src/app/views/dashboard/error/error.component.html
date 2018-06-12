@@ -1,43 +1,43 @@
 <div>
-  <a class="list-group-item list-group-item-action text-info" (click)="collapse = !collapse">
-    <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;<strong>{{ error._source.error }}</strong>
-    <i class="text-muted float-right">{{ error._source.timestamp | timeAgo}}</i>
+    <a class="list-group-item list-group-item-action text-info" (click)="collapse = !collapse">
+        <i class="fa fa-exclamation-triangle text-danger"></i>&nbsp;<strong>{{ error.error }}</strong>
+        <i class="text-muted float-right">{{ error.timestamp | timeAgo}}</i>
 
-    <br/>
-    <small class="text-muted">{{ error._source.client }} <span class="text-primary" *ngIf="error._source.session">| {{ error._source.session }}</span>
-    </small>
-  </a>
+        <br/>
+        <small class="text-muted">{{ error.client }} <span class="text-primary" *ngIf="error.session">| {{ error.session }}</span>
+        </small>
+    </a>
 
-  <div *ngIf="!collapse">
-    <div class="card-body">
-      <table class="table">
-        <tr *ngIf="error._source.source">
-          <th>Source</th>
-          <td>{{ error._source.source }}</td>
-        </tr>
-        <tr *ngIf="error._source.position">
-          <th>Position</th>
-          <td>{{ error._source.position }}</td>
-        </tr>
-        <tr *ngIf="error._source.client">
-          <th>Client</th>
-          <td>{{ error._source.client }}</td>
-        </tr>
-        <tr *ngIf="error._source.session">
-          <th>Session</th>
-          <td>{{ error._source.session }}</td>
-        </tr>
-        <tr>
-          <th width="20%">Date</th>
-          <td>{{ error._source.timestamp | date: 'long'}}</td>
-        </tr>
-      </table>
+    <div *ngIf="!collapse">
+        <div class="card-body">
+            <table class="table">
+                <tr *ngIf="error.source">
+                    <th>Source</th>
+                    <td>{{ error.source }}</td>
+                </tr>
+                <tr *ngIf="error.position">
+                    <th>Position</th>
+                    <td>{{ error.position }}</td>
+                </tr>
+                <tr *ngIf="error.client">
+                    <th>Client</th>
+                    <td>{{ error.client }}</td>
+                </tr>
+                <tr *ngIf="error.session">
+                    <th>Session</th>
+                    <td>{{ error.session }}</td>
+                </tr>
+                <tr>
+                    <th width="20%">Date</th>
+                    <td>{{ error.timestamp | date: 'long'}}</td>
+                </tr>
+            </table>
 
-      <pre><code highlight [textContent]="getErrorHighlightContent()"></code></pre>
+            <pre><code highlight [textContent]="getErrorHighlightContent()"></code></pre>
 
 
-      <app-actions [error]="error" [pageLimit]="5"></app-actions>
+            <app-actions [error]="error" [pageLimit]="5"></app-actions>
+        </div>
     </div>
-  </div>
 </div>
 

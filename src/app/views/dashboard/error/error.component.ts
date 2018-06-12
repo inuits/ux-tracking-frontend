@@ -27,11 +27,11 @@ export class ErrorComponent implements OnInit {
 
   getErrorHighlightContent() {
     try {
-      return JSON.stringify(JSON.parse(this.error['_source']['stack']), null, ' ');
+      return JSON.stringify(JSON.parse(this.error.stack), null, ' ');
     } catch (e) {
     }
 
-    return this.error['_source']['stack'];
+    return this.error.stack;
   }
 
   fetchActionsForError() {
