@@ -1,6 +1,7 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
 import {saveAs} from 'file-saver';
+import {ApiService} from '../../../core/services/api.service';
+import {Action} from '../../../domain/Action';
 
 
 @Component({
@@ -9,14 +10,14 @@ import {saveAs} from 'file-saver';
   styleUrls: ['./error.component.scss']
 })
 export class ErrorComponent implements OnInit {
-  actions = [];
 
   @Input()
   public error: Error;
+  actions: Action[];
 
   collapse = true;
 
-  constructor(@Inject(HttpClient) private httpclient) {
+  constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
@@ -34,13 +35,10 @@ export class ErrorComponent implements OnInit {
   }
 
   fetchActionsForError() {
-    this.httpclient.get('https://localhost:5000/action',
-      {
-        headers: new HttpHeaders({
-          'Authorization': 'Bearer ' + localStorage.getItem('token')
-        })
-      }).toPromise().then(res => {
-      this.actions = res != null ? res['hits'] as Array<Object> : [];
-    });
+    this.apiService.getActions(['reverse=true']).subscribe(
+      response => {
+        this.actions = response.objects;
+      }
+    );
   }
 }

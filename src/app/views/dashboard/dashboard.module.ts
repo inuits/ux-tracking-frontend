@@ -7,7 +7,6 @@ import {ButtonsModule} from 'ngx-bootstrap/buttons';
 import {DashboardComponent} from './dashboard.component';
 import {DashboardRoutingModule} from './dashboard-routing.module';
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from '@angular/common/http';
 import {ActionComponent} from './action/action.component';
 import {TimeAgoPipe} from 'time-ago-pipe';
 import {HighlightModule} from 'ngx-highlightjs';
@@ -18,6 +17,7 @@ import {PagerComponent} from '../base/pager/pager.component';
 import {NgSelectModule} from '@ng-select/ng-select';
 import {FilterComponent} from './filter/filter.component';
 import {FilterBadgeComponent} from './filter/filter-badge/filter-badge.component';
+import {CoreModule} from '../../core/core.module';
 
 @NgModule({
   imports: [
@@ -28,9 +28,9 @@ import {FilterBadgeComponent} from './filter/filter-badge/filter-badge.component
     CommonModule,
     BsDropdownModule,
     ButtonsModule.forRoot(),
-    HttpClientModule,
     HighlightModule.forRoot({theme: 'rainbow'}),
-    NgSelectModule
+    NgSelectModule,
+    CoreModule
   ],
   declarations: [DashboardComponent, ActionComponent, PagerComponent, TimeAgoPipe, ActionsComponent,
     ErrorsComponent, ErrorComponent, FilterComponent, FilterBadgeComponent],

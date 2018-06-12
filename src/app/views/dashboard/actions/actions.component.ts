@@ -1,8 +1,9 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
 import {ESFilter} from '../filter/ESFilter';
 import {saveAs} from 'file-saver';
 import {FilterComponent} from '../filter/filter.component';
+import {ApiService} from '../../../core/services/api.service';
+import {Action} from '../../../domain/Action';
 
 @Component({
   selector: 'app-actions',
@@ -23,16 +24,12 @@ export class ActionsComponent implements OnInit {
   activeFilters: ESFilter[] = [];
 
   totalActions = 0;
-  actions = [];
-  private reverse = false;
-  private httpHeaders = new HttpHeaders({
-    'Authorization': 'Bearer ' + localStorage.getItem('token')
-  });
-
+  actions: Action[];
   // TODO remove
   cyUrl: string = 'https://sportoase-multi-uat.inuits.eu';
+  private reverse = false;
 
-  constructor(@Inject(HttpClient) private httpClient) {
+  constructor(private apiService: ApiService) {
   }
 
   @Input() set error(value) {
@@ -57,8 +54,6 @@ export class ActionsComponent implements OnInit {
   }
 
   loadPage(page) {
-    let url = 'https://localhost:5000/action';
-
     const params = [];
 
     params.push('limit=' + this.pageLimit);
@@ -69,29 +64,23 @@ export class ActionsComponent implements OnInit {
       params.push(ESFilter.createQueryParams(this.activeFilters));
     }
 
-    url += '?' + params.join('&');
-
-    this.httpClient.get(url, {
-      'headers': this.httpHeaders
-    }).subscribe((res) => {
-      this.totalActions = res != null ? res['total'] : 0;
-      this.actions = res != null ? res['hits'] : [];
+    this.apiService.getActions(params).subscribe(response => {
+      this.totalActions = response.total;
+      this.actions = response.objects;
     });
   }
 
   getActionsForTest(filtersComponent: FilterComponent) {
     this.checkFilters(filtersComponent);
 
-    this.httpClient.get('https://localhost:5000/action?reverse=true&' + ESFilter.createQueryParams(this.activeFilters) + '',
-      {
-        headers: this.httpHeaders
-      }).toPromise().then(res => {
-      if (res != null) {
-        this.createCypressTest(res['hits'] as Array<Object>);
-      } else {
-        alert('Oops! Seems like there is no response from the server..');
+    const params = ESFilter.createQueryParams(this.activeFilters);
+    params.push('reverse=true');
+
+    this.apiService.getActions(params).subscribe(
+      res => {
+        this.createCypressTest(res.objects);
       }
-    });
+    );
   }
 
   checkFilters(filtersComponent: FilterComponent) {
@@ -113,9 +102,9 @@ export class ActionsComponent implements OnInit {
   createCypressTest(testActions) {
     const cypressActions = [];
     cypressActions.push('describe(\'Automatic Cypress Test\', function () {\n' +
-      '    it("' + testActions[0]._source.timestamp + '", function () {');
+      '    it("' + testActions[0].timestamp + '", function () {');
 
-    const url = this.cyUrl + testActions[0]._source.path;
+    const url = this.cyUrl + testActions[0].path;
 
     cypressActions.push('cy.visit("' + url + '");');
     cypressActions.push('cy.pause()');
@@ -126,20 +115,20 @@ export class ActionsComponent implements OnInit {
 
     for (const action of testActions) {
 
-      if (action._source.path.toLowerCase().indexOf('login')) {
+      if (action.path.toLowerCase().indexOf('login')) {
 
-        if (action._source.tree === '') {
-          cypressActions.push('cy.get(\'' + action._source.type + '\').contains(\'' + action._source.value + '\').click();');
+        if (action.tree === '') {
+          cypressActions.push('cy.get(\'' + action.type + '\').contains(\'' + action.value + '\').click();');
         } else {
-          if (action._source.method === 'focusout') {
-            if (action._source.value !== '') {
-              cypressActions.push('cy.get(\'' + action._source.tree + '\').type(\'' +
-                action._source.value + '\').should(\'have.value\', \'' + action._source.value + '\');');
+          if (action.method === 'focusout') {
+            if (action.value !== '') {
+              cypressActions.push('cy.get(\'' + action.tree + '\').type(\'' +
+                action.value + '\').should(\'have.value\', \'' + action.value + '\');');
             } else {
-              cypressActions.push('cy.get(\'' + action._source.tree + '\');');
+              cypressActions.push('cy.get(\'' + action.tree + '\');');
             }
           } else {
-            cypressActions.push('cy.get(\'' + action._source.tree + '\').click();');
+            cypressActions.push('cy.get(\'' + action.tree + '\').click();');
           }
         }
 

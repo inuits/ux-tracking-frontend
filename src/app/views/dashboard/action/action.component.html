@@ -1,71 +1,71 @@
 <div>
   <a class="list-group-item list-group-item-action" (click)="collapse = !collapse">
-    <span class="badge badge-{{ getActionColor(action) }} text-white">{{ action._source.method}}</span> &nbsp;
-    <strong>{{ action._source.type }}</strong> |
-    <i class="text-muted">{{ action._source.value | slice:0:35 }} <span
-            *ngIf="action._source.value.length >= 35">...</span>
+    <span class="badge badge-{{ getActionColor(action) }} text-white">{{ action.method}}</span> &nbsp;
+    <strong>{{ action.type }}</strong> |
+    <i class="text-muted">{{ action.value | slice:0:35 }} <span
+            *ngIf="action.value.length >= 35">...</span>
     </i>
-    <i class="float-right">{{ action._source.timestamp | date: "HH:mm"}}<i class="text-muted">:{{
-      action._source.timestamp | date: "ss"}}</i></i>
+    <i class="float-right">{{ action.timestamp | date: "HH:mm"}}<i class="text-muted">:{{
+      action.timestamp | date: "ss"}}</i></i>
     <br/>
-    <small class="text-muted">{{ action._source.client }} <span class="text-primary" *ngIf="action._source.session">| {{ action._source.session }}</span>
+    <small class="text-muted">{{ action.client }} <span class="text-primary" *ngIf="action.session">| {{ action.session }}</span>
     </small>
   </a>
 
   <div *ngIf="!collapse">
     <div class="card-body">
       <table class="table">
-        <tr *ngIf="action._source.id">
+        <tr *ngIf="action.id">
           <th>id</th>
-          <td>{{ action._source.id }}</td>
+          <td>{{ action.id }}</td>
         </tr>
-        <tr *ngIf="action._source.class">
+        <tr *ngIf="action.class">
           <th>class</th>
-          <td>{{ action._source.class }}</td>
+          <td>{{ action.class }}</td>
         </tr>
-        <tr *ngIf="action._source.value">
+        <tr *ngIf="action.value">
           <th>value</th>
-          <td>{{ action._source.value | slice:0:255 }} <span
-                  *ngIf="action._source.value.length > 255">...</span></td>
+          <td>{{ action.value | slice:0:255 }} <span
+                  *ngIf="action.value.length > 255">...</span></td>
         </tr>
-        <tr *ngIf="action._source.type">
+        <tr *ngIf="action.type">
           <th>type</th>
-          <td>{{ action._source.type }}</td>
+          <td>{{ action.type }}</td>
         </tr>
         <tr>
           <th>path</th>
-          <td>{{ action._source.path }}</td>
+          <td>{{ action.path }}</td>
         </tr>
-        <tr *ngIf="action._source.target">
+        <tr *ngIf="action.target">
           <th>target</th>
-          <td>{{ action._source.target }}</td>
+          <td>{{ action.target }}</td>
         </tr>
-        <tr *ngIf="action._source.method">
+        <tr *ngIf="action.method">
           <th>method</th>
-          <td>{{ action._source.method }}</td>
+          <td>{{ action.method }}</td>
         </tr>
-        <tr *ngIf="action._source.tree">
+        <tr *ngIf="action.tree">
           <th>tree</th>
-          <td>{{ action._source.tree }}</td>
+          <td>{{ action.tree }}</td>
         </tr>
         <tr>
           <th width="20%">Date</th>
           <td>
-            {{ action._source.timestamp | date : "dd MMM yyyy HH:mm" }}
-            <span class="text-muted">:{{ action._source.timestamp | date : "ss"}}</span>
+            {{ action.timestamp | date : "dd MMM yyyy HH:mm" }}
+            <span class="text-muted">:{{ action.timestamp | date : "ss"}}</span>
           </td>
         </tr>
         <tr>
           <th width="20%">timestamp</th>
           <td>
-            {{ action._source.timestamp }}
+            {{ action.timestamp }}
           </td>
         </tr>
       </table>
 
 
       <pre>
-        <code highlight [textContent]="createHTML(action._source)"></code>
+        <code highlight [textContent]="createHTML(action)"></code>
       </pre>
     </div>
   </div>

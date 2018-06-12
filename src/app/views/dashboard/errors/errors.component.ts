@@ -1,6 +1,7 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Component, Input, OnInit} from '@angular/core';
+import {HttpHeaders} from '@angular/common/http';
 import {ESFilter} from '../filter/ESFilter';
+import {ApiService} from '../../../core/services/api.service';
 
 @Component({
   selector: 'app-errors',
@@ -20,13 +21,13 @@ export class ErrorsComponent implements OnInit {
   activeFilters: ESFilter[] = [];
 
   totalErrors = 0;
-  errors = Array<Error>();
+  errors: Error[];
 
   private httpHeaders = new HttpHeaders({
     'Authorization': 'Bearer ' + localStorage.getItem('token')
   });
 
-  constructor(@Inject(HttpClient) private httpClient) {
+  constructor(private apiService: ApiService) {
   }
 
   ngOnInit() {
@@ -41,14 +42,11 @@ export class ErrorsComponent implements OnInit {
   }
 
   loadPage(page) {
-    this.httpClient.get('https://localhost:5000/error?limit=' + this.pageLimit + '&from=' + page * this.pageLimit, {
-      'headers': this.httpHeaders
-    })
-      .subscribe((res) => {
-
-        this.totalErrors = res != null ? res['total'] : 0;
-        this.errors = res != null ? res['hits'] : 0;
-      });
+    this.apiService.getErrors(['limit=' + this.pageLimit, 'from=' + page * this.pageLimit]).subscribe(
+      response => {
+        this.totalErrors = response.total;
+        this.errors = response.objects;
+      }
+    );
   }
-
 }

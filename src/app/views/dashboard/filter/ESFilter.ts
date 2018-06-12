@@ -7,7 +7,7 @@ export class ESFilter {
   ) {
   }
 
-  static createQueryParams(filters: ESFilter[]): string {
+  static createQueryParams(filters: ESFilter[]) {
     const params = new Map<string, string[]>();
 
     for (const filter of filters) {
@@ -23,14 +23,15 @@ export class ESFilter {
   }
 
   static asQueryParam(paramArray: Map<string, string[]>) {
-    let query = '';
+    const query = [];
 
     paramArray.forEach((value, key) => {
-      query += key + '=' + value;
-      query += '&';
+      query.push(key + '=' + value);
+      // query += '&';
     });
 
-    return query.substring(0, query.length - 1);
+    return query;
+    // return query.substring(0, query.length - 1);
   }
 
   isInclude(): boolean {
