@@ -15,6 +15,16 @@ cd ux-tracking-frontend
 yarn [install]
 ```
 
+The config is provided through a json file in `/assets/config/env_vars.json`.  
+Copy the dist file over from `/assets/config/env_vars.json.dist` to get started.
+```json
+{
+  "baseUrl": "https://localhost:5000",
+  "appName": "appNameHere",
+  "apiKey": "apiKeyHere"
+}
+```
+
 Run the project.
 ```bash
 ng serve [-o]
