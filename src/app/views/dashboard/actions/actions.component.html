@@ -55,7 +55,7 @@
                   (filtersChanged)="activeFilters = $event; pager.loadPage()"></app-filter>
     </div>
 
-    <div class="card-body empty-state text-center  p-4" *ngIf="totalActions == 0">
+    <div class="card-body empty-state text-center  p-4" *ngIf="totalActions == null">
       <h3>No Actions</h3>
       <h5>Enjoy this moment, it won't last</h5>
     </div>
